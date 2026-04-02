@@ -1,98 +1,62 @@
-name: 📚 Daily Books Update
+name: 📚 Daily Books + Covers Update
 
 on:
   schedule:
-    # ⏰ يعمل يوميًا عند الساعة 6 صباحًا بتوقيت UTC (8 صباحًا بتوقيت القاهرة)
     - cron: '0 6 * * *'
-  
-  # 🖱️ إمكانية التشغيل اليدوي من واجهة GitHub
   workflow_dispatch:
     inputs:
       force_refresh:
-        description: 'إعادة جلب كاملة من جميع المصادر'
+        description: 'إعادة جلب كاملة + أغلفة'
         required: false
         default: 'false'
         type: choice
-        options:
-          - 'false'
-          - 'true'
+        options: ['false', 'true']
 
 permissions:
   contents: write
 
-env:
-  PYTHON_VERSION: '3.11'
-  TZ: 'UTC'
-
 jobs:
   update-books:
     runs-on: ubuntu-latest
-    
     steps:
-      # ===== CHECKOUT =====
-      - name: 📥 Checkout repository
+      - name: 📥 Checkout
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      # ===== PYTHON SETUP =====
-      - name: 🐍 Setup Python ${{ env.PYTHON_VERSION }}
+      - name: 🐍 Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: '3.11'
           cache: 'pip'
 
-      # ===== INSTALL DEPENDENCIES =====
-      - name: 📦 Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+      - name: 📦 Install deps
+        run: pip install -r requirements.txt
 
-      # ===== RUN UPDATE SCRIPT =====
-      - name: 🔄 Run daily update
+      - name: 🔄 Run update (books + covers)
         env:
           GOOGLE_BOOKS_API_KEY: ${{ secrets.GOOGLE_BOOKS_API_KEY }}
           FORCE_REFRESH: ${{ github.event.inputs.force_refresh || 'false' }}
-        run: |
-          python scripts/main.py
+        run: python scripts/main.py
 
-      # ===== CHECK FOR CHANGES =====
-      - name: 🔍 Check for changes
-        id: check_changes
-        run: |
-          git diff --quiet || echo "changes=true" >> $GITHUB_OUTPUT
+      - name: 🔍 Check changes
+        id: check
+        run: git diff --quiet || echo "changes=true" >> $GITHUB_OUTPUT
 
-      # ===== COMMIT & PUSH =====
-      - name: 📤 Commit and push updates
-        if: steps.check_changes.outputs.changes == 'true'
+      - name: 📤 Commit & Push
+        if: steps.check.outputs.changes == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "📚 Corruption Books Bot"
+          git add data/ README.md index.html assets/
           
-          # Add all changed files
-          git add data/books.json data/archive/ README.md index.html
+          BOOK_COUNT=$(python -c "import json; print(len(json.load(open('data/books.json')).get('books',[])))")
+          COVERS=$(python -c "import json; d=json.load(open('data/books.json')); print(d.get('metadata',{}).get('cover_stats',{}).get('resolved',0))")
           
-          # Create detailed commit message
-          TODAY=$(date +%Y-%m-%d)
-          BOOK_COUNT=$(python -c "import json; d=json.load(open('data/books.json')); print(len(d.get('books',[])))")
-          EXPIRED=$(python -c "
-          import json, os
-          archive_dir = 'data/archive'
-          if os.path.exists(archive_dir):
-              files = [f for f in os.listdir(archive_dir) if f.endswith('.json')]
-              total = 0
-              for f in files:
-                  with open(os.path.join(archive_dir, f)) as fh:
-                      total += len(json.load(fh))
-              print(total)
-          else:
-              print(0)
-          ")
-          
-          git commit -m "🔄 تحديث يومي: ${TODAY} | 📚 ${BOOK_COUNT} كتاب | 🗑️ ${EXPIRED} مؤرشف"
+          git commit -m "🔄 $(date +%Y-%m-%d) | 📚 ${BOOK_COUNT} كتاب | 🖼️ ${COVERS} غلاف"
           git push
 
-      - name: ✅ No changes detected
-        if: steps.check_changes.outputs.changes != 'true'
-        run: echo "📭 لا توجد تحديثات جديدة اليوم."
+      - name: ✅ Done
+        if: steps.check.outputs.changes != 'true'
+        run: echo "📭 لا تحديثات جديدة"
