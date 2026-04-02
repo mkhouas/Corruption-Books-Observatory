@@ -1,0 +1,126 @@
+{
+  "_comment": "أضف هنا الكتب يدويًا – ستُدمج تلقائيًا في التحديث اليومي",
+  "books": [
+    {
+      "title": "Deconstructing Corruption in Africa",
+      "authors": ["Ina Kubbe", "Emmanuel Saffa Abdulai", "Michael Johnston"],
+      "publisher": "Routledge",
+      "published_date": "2024-09-01",
+      "language": "EN",
+      "description": "يبحث في الفساد ومكافحته عبر القارة الأفريقية مع إبراز الاختلافات الإقليمية والموضوعية",
+      "isbn": "978-1032456789",
+      "region": "africa",
+      "book_type": "academic",
+      "countries": [],
+      "categories": ["corruption", "Africa", "governance"]
+    },
+    {
+      "title": "Corruption Proofing in Africa: A Systems Thinking Approach",
+      "authors": ["Dan Kuwali"],
+      "publisher": "Routledge",
+      "published_date": "2024-03-01",
+      "language": "EN",
+      "description": "مقاربة التفكير المنظومي كإطار لفهم ومواجهة الفساد في السياق الأفريقي",
+      "region": "africa",
+      "book_type": "methodology",
+      "countries": [],
+      "categories": ["corruption", "systems thinking", "Africa"]
+    },
+    {
+      "title": "Combating Grand Corruption in Africa",
+      "authors": ["Dan Kuwali"],
+      "publisher": "Routledge",
+      "published_date": "2025-07-01",
+      "language": "EN",
+      "description": "استراتيجيات مبنية على الأدلة لمكافحة الفساد الكبير في أفريقيا",
+      "region": "africa",
+      "book_type": "policy",
+      "countries": [],
+      "categories": ["grand corruption", "Africa", "anti-corruption"]
+    },
+    {
+      "title": "Corruption, Fraud and Accountability in South Africa's Public Sector",
+      "authors": ["Modimowabarwa Kanyane"],
+      "publisher": "Routledge",
+      "published_date": "2025-10-01",
+      "language": "EN",
+      "description": "دراسات تجريبية حول أسر الدولة والفساد والاحتيال في القطاع العام بجنوب أفريقيا",
+      "region": "africa",
+      "book_type": "case_study",
+      "countries": ["South Africa"],
+      "categories": ["state capture", "corruption", "South Africa"]
+    },
+    {
+      "title": "Corruption and Development in Nigeria",
+      "authors": ["Olayinka Àkànle", "D.O. Nkpe"],
+      "publisher": "Routledge",
+      "published_date": "2024-06-01",
+      "language": "EN",
+      "description": "تحليل العلاقة بين الفساد والتنمية في نيجيريا",
+      "region": "africa",
+      "book_type": "academic",
+      "countries": ["Nigeria"],
+      "categories": ["corruption", "development", "Nigeria"]
+    },
+    {
+      "title": "The Routledge Handbook of Anti-Corruption Research and Practice",
+      "authors": ["David Jackson", "Inge Amundsen", "David Aled Williams"],
+      "publisher": "Routledge",
+      "published_date": "2026-02-01",
+      "language": "EN",
+      "description": "بمناسبة 20 عامًا على UNCAC – وجهات نظر عالمية حول مكافحة الفساد",
+      "region": "global",
+      "book_type": "reference",
+      "countries": [],
+      "categories": ["anti-corruption", "UNCAC", "handbook"]
+    },
+    {
+      "title": "Corruption and Anti-Corruption Upside Down",
+      "authors": ["Fernanda Odilla", "Konstantinos Tsimonis"],
+      "publisher": "Palgrave Macmillan",
+      "published_date": "2024-05-01",
+      "language": "EN",
+      "description": "تحليل معمّق للفساد في الجنوب العالمي مع توسيع الأفق المفاهيمي بعيدًا عن الأطر الغربية",
+      "region": "global",
+      "book_type": "academic",
+      "countries": [],
+      "categories": ["corruption", "Global South", "anti-corruption"]
+    },
+    {
+      "title": "Autocracy, Inc.: The Dictators Who Want to Run the World",
+      "authors": ["Anne Applebaum"],
+      "publisher": "Doubleday",
+      "published_date": "2024-07-23",
+      "language": "EN",
+      "description": "شبكات الفساد العابرة للحدود التي تربط الأنظمة الاستبدادية وتدعم استمرار الحكم السلطوي",
+      "region": "global",
+      "book_type": "investigative",
+      "countries": [],
+      "categories": ["autocracy", "corruption", "kleptocracy"]
+    },
+    {
+      "title": "American Corruption Talk",
+      "authors": ["Robert G. Boatright", "Molly Brigid McGrath"],
+      "publisher": "Temple University Press",
+      "published_date": "2025-03-01",
+      "language": "EN",
+      "description": "تحليل خطاب الفساد في السياسة الأمريكية: خطاب المطهِّر مقابل خطاب المرمِّم",
+      "region": "global",
+      "book_type": "academic",
+      "countries": ["United States"],
+      "categories": ["corruption", "political discourse", "USA"]
+    },
+    {
+      "title": "Plan national pluriannuel de lutte contre la corruption 2025-2029",
+      "authors": ["Gouvernement français"],
+      "publisher": "Publication officielle",
+      "published_date": "2025-11-01",
+      "language": "FR",
+      "description": "الخطة الوطنية الفرنسية الثانية لمكافحة الفساد – ارتفاع الجرائم المتعلقة بالنزاهة بنسبة 50.9%",
+      "region": "global",
+      "book_type": "official",
+      "countries": ["France"],
+      "categories": ["anti-corruption", "France", "national plan"]
+    }
+  ]
+}
