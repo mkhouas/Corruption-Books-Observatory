@@ -1,27 +1,21 @@
 """
-📝 مولّد README.md التلقائي
+📝 مولّد README.md – مع صور أغلفة الكتب
 """
 
-from datetime import datetime
 from typing import List, Dict
-from config import REGIONS, BOOK_TYPES, TODAY, CUTOFF_DATE, VALIDITY_MONTHS
+from config import REGIONS, BOOK_TYPES, TODAY, CUTOFF_DATE, VALIDITY_MONTHS, COVER_CONFIG
 
 
 def generate_readme(books: List[dict], stats: dict) -> str:
-    """يولّد محتوى README.md كاملاً"""
-    
-    # تصنيف الكتب حسب المنطقة
-    by_region: Dict[str, List[dict]] = {
-        "africa": [], "arab": [], "global": [], "french": []
-    }
+
+    by_region: Dict[str, List[dict]] = {"africa": [], "arab": [], "global": [], "french": []}
     reports = []
-    
+
     for book in books:
-        region = book.get("region", "global")
+        bt = book.get("book_type", "")
         lang = book.get("language", "")
-        book_type = book.get("book_type", "")
-        
-        if book_type == "report":
+        region = book.get("region", "global")
+        if bt == "report":
             reports.append(book)
         elif lang == "FR":
             by_region["french"].append(book)
@@ -29,141 +23,125 @@ def generate_readme(books: List[dict], stats: dict) -> str:
             by_region[region].append(book)
         else:
             by_region["global"].append(book)
-    
-    # العدادات
+
     total = len(books)
-    africa_count = len(by_region["africa"])
-    arab_count = len(by_region["arab"])
-    global_count = len(by_region["global"])
-    french_count = len(by_region["french"])
-    report_count = len(reports)
-    
-    cutoff_str = CUTOFF_DATE.strftime("%B %Y")
     today_str = TODAY.strftime("%Y-%m-%d")
-    
+    cutoff_str = CUTOFF_DATE.strftime("%B %Y")
+    placeholder = COVER_CONFIG["placeholder_url"]
+
     md = f"""<div dir="rtl">
 
 # 📚 مرصد كتب الفساد | Corruption Books Observatory
 
-[![المساهمات مرحب بها](https://img.shields.io/badge/المساهمات-مرحب%20بها-brightgreen.svg)](#-المساهمة)
+[![تحديث يومي](https://img.shields.io/badge/تحديث-يومي%20تلقائي-purple.svg)]()
 [![آخر تحديث](https://img.shields.io/badge/آخر%20تحديث-{today_str}-blue.svg)]()
 [![كتب](https://img.shields.io/badge/الكتب-{total}-orange.svg)]()
-[![تحديث تلقائي](https://img.shields.io/badge/تحديث-يومي%20تلقائي-purple.svg)]()
+[![المساهمات](https://img.shields.io/badge/المساهمات-مرحب%20بها-brightgreen.svg)](#-المساهمة)
 
-> 📖 قائمة منسّقة **تتحدّث تلقائيًا يوميًا** للكتب غير الخيالية الصادرة خلال آخر **{VALIDITY_MONTHS} شهرًا**
-> حول **الفساد ومكافحته** – بالعربية والإنجليزية والفرنسية.
+> 🤖 **يتحدّث تلقائيًا يوميًا** | 📖 كتب غير خيالية فقط | 📅 آخر {VALIDITY_MONTHS} شهرًا
 >
-> 🎯 الأولوية: **العالم العربي** و**أفريقيا** – مع تغطية عالمية.
+> 🎯 الأولوية: **العالم العربي** و**أفريقيا** | 🗣️ عربي · English · Français
 >
-> 🤖 آخر تحديث تلقائي: **{today_str}**
+> 🖼️ **اضغط على أي غلاف للاطلاع على الكتاب مباشرة**
 
 ---
 
-## ⚙️ معايير الإدراج التلقائي
-
-| المعيار | الشرط |
-|---------|-------|
-| 📅 تاريخ الصدور | آخر {VALIDITY_MONTHS} شهرًا (منذ {cutoff_str}) |
-| 📖 النوع | غير خيالي فقط (أكاديمي، بحثي، تقارير) |
-| 🌍 الأولوية | العالم العربي + أفريقيا |
-| 🗣️ اللغات | العربية · الإنجليزية · الفرنسية |
-| ⏰ التحديث | يومي تلقائي عبر GitHub Actions |
-| 🗑️ الانتهاء | يُحذف ويُؤرشف كل كتاب تجاوز {VALIDITY_MONTHS} شهرًا |
-
----
-
-## 📊 إحصائيات المرصد
+## 📊 إحصائيات
 
 | الفئة | العدد |
 |------|-------|
-| 📚 إجمالي الكتب | **{total}** |
-| 🌍 أفريقيا | {africa_count} |
-| 🏛️ العالم العربي | {arab_count} |
-| 🌐 عالمي/مقارن | {global_count} |
-| 🇫🇷 بالفرنسية | {french_count} |
-| 📊 تقارير مؤسسية | {report_count} |
+| 📚 الإجمالي | **{total}** |
+| 🌍 أفريقيا | {len(by_region['africa'])} |
+| 🏛️ عربي | {len(by_region['arab'])} |
+| 🌐 عالمي | {len(by_region['global'])} |
+| 🇫🇷 فرنسي | {len(by_region['french'])} |
+| 📊 تقارير | {len(reports)} |
+| 🖼️ أغلفة | {stats.get('covers_found', 0)} |
 
 ---
 
 """
-    
-    # ═══ أقسام الكتب ═══
+
+    # ═══ بناء أقسام الكتب مع الأغلفة ═══
     sections = [
-        ("africa", "🌍 كتب عن الفساد في أفريقيا", by_region["africa"]),
-        ("arab", "🏛️ كتب عن الفساد في العالم العربي", by_region["arab"]),
-        ("global", "🌐 كتب بمنظور عالمي / مقارن", by_region["global"]),
-        ("french", "🇫🇷 كتب ومنشورات بالفرنسية", by_region["french"]),
+        ("africa", "🌍 أفريقيا", by_region["africa"]),
+        ("arab", "🏛️ العالم العربي", by_region["arab"]),
+        ("global", "🌐 عالمي / مقارن", by_region["global"]),
+        ("french", "🇫🇷 بالفرنسية", by_region["french"]),
     ]
-    
+
     counter = 1
-    for region_id, section_title, section_books in sections:
-        if not section_books:
+    for rid, title, bks in sections:
+        if not bks:
             continue
-        
-        md += f"## {section_title}\n\n"
-        md += "| # | العنوان | المؤلف | الناشر | تاريخ الصدور | اللغة | النوع |\n"
-        md += "|---|---------|--------|--------|-------------|-------|------|\n"
-        
-        for book in section_books:
+
+        md += f"## {title}\n\n"
+
+        for book in bks:
+            cover = book.get("cover_url", "") or placeholder
+            info = book.get("info_url", "") or book.get("link", "") or "#"
             authors = ", ".join(book.get("authors", [])[:3])
             if len(book.get("authors", [])) > 3:
                 authors += " et al."
-            
-            type_labels = BOOK_TYPES.get(book.get("book_type", "academic"), {})
-            type_label = type_labels.get("ar", "أكاديمي")
-            
-            md += (
-                f"| {counter} "
-                f"| **{book.get('title', '')}** "
-                f"| {authors} "
-                f"| {book.get('publisher', '')} "
-                f"| {book.get('published_date', '')} "
-                f"| {book.get('language', '')} "
-                f"| {type_label} |\n"
-            )
-            counter += 1
-        
-        md += "\n---\n\n"
-    
-    # ═══ التقارير ═══
-    if reports:
-        md += "## 📊 تقارير ومؤشرات مؤسسية\n\n"
-        md += "| # | التقرير | الجهة | التاريخ | الرابط |\n"
-        md += "|---|--------|-------|---------|--------|\n"
-        
-        for i, report in enumerate(reports, 1):
-            link = report.get("link", "")
-            link_md = f"[↗ الرابط]({link})" if link else "—"
-            md += (
-                f"| T{i} "
-                f"| **{report.get('title', '')}** "
-                f"| {report.get('publisher', '')} "
-                f"| {report.get('published_date', '')} "
-                f"| {link_md} |\n"
-            )
-        
-        md += "\n---\n\n"
-    
-    # ═══ الموارد الدائمة ═══
-    md += """## 🔗 روابط وموارد دائمة
 
-| المورد | الوصف | الرابط |
-|--------|-------|--------|
-| Transparency International | مؤشر مدركات الفساد | [transparency.org](https://www.transparency.org) |
-| UNODC – UNCAC | اتفاقية الأمم المتحدة لمكافحة الفساد | [unodc.org](https://www.unodc.org/corruption/) |
-| Mo Ibrahim Foundation | مؤشر إبراهيم للحوكمة الأفريقية | [mo.ibrahim.foundation](https://mo.ibrahim.foundation/iiag) |
-| World Bank – WGI | مؤشرات الحوكمة العالمية | [worldbank.org](https://info.worldbank.org/governance/wgi/) |
-| UNCAC Coalition | ائتلاف المجتمع المدني العالمي | [uncaccoalition.org](https://uncaccoalition.org/) |
+            tl = BOOK_TYPES.get(book.get("book_type", "academic"), {})
+            type_label = tl.get("ar", "أكاديمي")
+            pub_date = book.get("published_date", "")
+            publisher = book.get("publisher", "")
+            desc = book.get("description", "")[:200]
+            if len(book.get("description", "")) > 200:
+                desc += "..."
+
+            md += f"""### {counter}. [{book.get('title', '')}]({info})
+
+<a href="{info}"><img src="{cover}" alt="غلاف" width="120" align="left" style="margin-left:15px; margin-bottom:10px; border-radius:6px;" /></a>
+
+| | |
+|---|---|
+| ✍️ **المؤلف** | {authors} |
+| 🏢 **الناشر** | {publisher} |
+| 📅 **التاريخ** | {pub_date} |
+| 🗣️ **اللغة** | {book.get('language', '')} |
+| 🏷️ **النوع** | {type_label} |
+
+{f'> {desc}' if desc else ''}
+
+[📖 **اطّلع على الكتاب ←**]({info})
+
+<br clear="both"/>
 
 ---
 
 """
-    
-    # ═══ المساهمة ═══
-    md += """## 🤝 المساهمة
+            counter += 1
 
-### إضافة كتاب يدويًا
-أضف الكتاب في ملف `data/manual_entries.json` بالتنسيق التالي:
+    # ═══ التقارير ═══
+    if reports:
+        md += "## 📊 تقارير مؤسسية\n\n"
+        md += "| # | التقرير | الجهة | التاريخ | الرابط |\n"
+        md += "|---|--------|-------|---------|--------|\n"
+        for i, r in enumerate(reports, 1):
+            link = r.get("info_url", "") or r.get("link", "")
+            lnk = f"[↗ اطّلع عليه]({link})" if link else "—"
+            md += f"| T{i} | **{r.get('title','')}** | {r.get('publisher','')} | {r.get('published_date','')} | {lnk} |\n"
+        md += "\n---\n\n"
+
+    # ═══ الموارد ═══
+    md += """## 🔗 موارد دائمة
+
+| المورد | الرابط |
+|--------|--------|
+| Transparency International | [transparency.org](https://www.transparency.org) |
+| UNODC – UNCAC | [unodc.org](https://www.unodc.org/corruption/) |
+| Mo Ibrahim Foundation | [mo.ibrahim.foundation](https://mo.ibrahim.foundation/iiag) |
+| World Bank – WGI | [worldbank.org](https://info.worldbank.org/governance/wgi/) |
+| UNCAC Coalition | [uncaccoalition.org](https://uncaccoalition.org/) |
+
+---
+
+## 🤝 المساهمة
+
+أضف كتبًا في `data/manual_entries.json` – لا تنسَ إضافة حقل `cover_url` و `info_url`:
 
 ```json
 {
@@ -172,8 +150,7 @@ def generate_readme(books: List[dict], stats: dict) -> str:
   "publisher": "الناشر",
   "published_date": "2025-06-15",
   "language": "AR",
-  "description": "وصف مختصر",
-  "isbn": "978-...",
-  "region": "arab",
-  "book_type": "academic"
+  "cover_url": "https://...",
+  "info_url": "https://...",
+  "region": "arab"
 }
