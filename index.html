@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مرصد الفساد | Corruption Books Observatory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cairo:wght@400;600;700;900&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#0d0f14;
+  --bg2:#13161e;
+  --card:#1a1e28;
+  --card2:#1f2435;
+  --text:#e8e4d9;
+  --text2:#8a8fa0;
+  --gold:#d4a843;
+  --gold2:#f0c96a;
+  --red:#c0392b;
+  --teal:#0f7b6c;
+  --ar:#0f7b6c;
+  --fr:#2a6bbf;
+  --en:#7c4daa;
+  --border:#2a2f3d;
+  --shadow:0 4px 32px rgba(0,0,0,.5);
+  --radius:16px;
+  --font-display:'Playfair Display',serif;
+  --font-ar:'Cairo',sans-serif;
+  --font-body:'Source Serif 4',serif;
+}
+
+body{
+  font-family:var(--font-ar);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ═══ GRAIN OVERLAY ═══ */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1000;opacity:.4;
+}
+
+/* ═══ HERO ═══ */
+.hero{
+  position:relative;
+  background:var(--bg);
+  padding:70px 20px 100px;
+  text-align:center;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%,rgba(212,168,67,.08) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 50%,rgba(15,123,108,.06) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 50%,rgba(124,77,170,.06) 0%,transparent 60%);
+  pointer-events:none;
+}
+
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(212,168,67,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(212,168,67,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+}
+
+.hero-c{position:relative;z-index:2;max-width:900px;margin:0 auto}
+
+.hero-icon{
+  font-size:4em;margin-bottom:20px;display:block;
+  filter:drop-shadow(0 0 30px rgba(212,168,67,.4));
+  animation:floatIcon 4s ease-in-out infinite;
+}
+@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+.hero h1{
+  font-family:var(--font-display);
+  font-size:3em;font-weight:900;
+  background:linear-gradient(135deg,var(--gold2) 0%,var(--gold) 40%,#fff 70%,var(--gold2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.2;margin-bottom:10px;
+  text-shadow:none;
+  animation:shimmer 4s ease-in-out infinite;
+}
+@keyframes shimmer{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
+
+.hero-en{
+  font-family:var(--font-body);
+  font-size:1.15em;color:var(--text2);letter-spacing:.15em;
+  text-transform:uppercase;margin-bottom:24px;font-weight:600;
+}
+
+.hero-line{
+  width:100px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:0 auto 24px;
+}
+
+.hero .info{
+  font-size:1em;color:rgba(232,228,217,.75);
+  max-width:720px;margin:0 auto;line-height:2;
+}
+
+.hero-tags{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px;
+}
+.hero-tag{
+  padding:6px 18px;border-radius:30px;font-size:.8em;font-weight:700;
+  border:1px solid;letter-spacing:.05em;
+}
+.hero-tag.t1{color:var(--gold);border-color:rgba(212,168,67,.3);background:rgba(212,168,67,.07)}
+.hero-tag.t2{color:var(--teal);border-color:rgba(15,123,108,.3);background:rgba(15,123,108,.07)}
+.hero-tag.t3{color:#e67e73;border-color:rgba(192,57,43,.3);background:rgba(192,57,43,.07)}
+.hero-tag.t4{color:var(--fr);border-color:rgba(42,107,191,.3);background:rgba(42,107,191,.07)}
+
+/* ═══ STATS BAR ═══ */
+.stats-bar{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:16px;
+  max-width:1400px;margin:-50px auto 40px;
+  padding:0 24px;position:relative;z-index:10;
+}
+
+.stat-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-top:3px solid var(--gold);
+  border-radius:var(--radius);
+  padding:24px 18px;text-align:center;
+  box-shadow:var(--shadow);
+  transition:transform .3s,border-top-color .3s;
+  position:relative;overflow:hidden;
+}
+.stat-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(212,168,67,.06),transparent 60%);
+  pointer-events:none;
+}
+.stat-card:hover{transform:translateY(-5px);border-top-color:var(--gold2)}
+.stat-card .icon{font-size:1.8em;margin-bottom:8px;display:block}
+.stat-card .num{
+  font-family:var(--font-display);
+  font-size:2.2em;font-weight:900;
+  color:var(--gold);line-height:1;
+  transition:transform .3s;
+}
+.stat-card:hover .num{transform:scale(1.1)}
+.stat-card .lbl{font-size:.8em;color:var(--text2);margin-top:8px;font-weight:700;letter-spacing:.05em}
+
+/* ═══ CONTROLS ═══ */
+.controls{max-width:1400px;margin:0 auto 32px;padding:0 24px}
+
+.search-wrap{position:relative;margin-bottom:20px}
+.search-box{
+  width:100%;padding:16px 60px 16px 28px;
+  border-radius:50px;border:2px solid var(--border);
+  background:var(--card);color:var(--text);
+  font-size:1em;font-family:var(--font-ar);
+  outline:none;transition:all .3s;
+  direction:rtl;
+}
+.search-box::placeholder{color:var(--text2)}
+.search-box:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,168,67,.1)}
+.search-icon{
+  position:absolute;right:22px;top:50%;transform:translateY(-50%);
+  font-size:1.2em;pointer-events:none;color:var(--text2);
+}
+
+.filter-panel{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 24px;
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center;
+}
+
+.filter-group{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.filter-label{
+  font-size:.8em;font-weight:700;color:var(--text2);
+  letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+}
+
+.fbtn{
+  padding:8px 20px;border-radius:50px;
+  border:1.5px solid var(--border);
+  background:transparent;color:var(--text2);
+  cursor:pointer;font-size:.85em;font-weight:700;
+  font-family:var(--font-ar);
+  transition:all .25s;
+}
+.fbtn:hover{border-color:var(--gold);color:var(--gold)}
+.fbtn.active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.fbtn.a-ar{background:var(--ar);color:#fff;border-color:var(--ar)}
+.fbtn.a-fr{background:var(--fr);color:#fff;border-color:var(--fr)}
+.fbtn.a-en{background:var(--en);color:#fff;border-color:var(--en)}
+
+.sel{
+  padding:8px 20px;border-radius:50px;
+  border:1.5px solid var(--border);
+  background:var(--bg);color:var(--text);
+  font-size:.85em;font-weight:600;font-family:var(--font-ar);
+  cursor:pointer;outline:none;transition:border-color .25s;
+}
+.sel:focus{border-color:var(--gold)}
+
+.divider{width:1px;height:30px;background:var(--border);flex-shrink:0}
+
+/* ═══ UPDATE BAR ═══ */
+.update-bar{
+  max-width:1400px;margin:0 auto 24px;padding:0 24px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+}
+
+.live{display:flex;align-items:center;gap:8px;font-size:.85em;color:var(--teal);font-weight:700}
+.live-dot{
+  width:8px;height:8px;background:var(--teal);border-radius:50%;
+  animation:pulse 2.5s ease-in-out infinite;box-shadow:0 0 0 3px rgba(15,123,108,.2);
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+
+.time{font-size:.8em;color:var(--text2)}
+
+.rbtn{
+  padding:10px 24px;border-radius:50px;
+  border:1.5px solid var(--gold);
+  background:transparent;color:var(--gold);
+  cursor:pointer;font-size:.85em;font-weight:700;font-family:var(--font-ar);
+  transition:all .3s;
+}
+.rbtn:hover{background:var(--gold);color:var(--bg)}
+.rbtn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ═══ PROGRESS BAR ═══ */
+.pbar{max-width:1400px;margin:0 auto 20px;padding:0 24px;display:none}
+.ptrack{height:4px;background:var(--border);border-radius:4px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,var(--gold),var(--teal),var(--gold));border-radius:4px;transition:width .4s;width:0;background-size:200% 100%;animation:pshine 2s linear infinite}
+@keyframes pshine{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.ptxt{font-size:.75em;color:var(--text2);margin-top:8px;text-align:center;font-weight:600}
+
+/* ═══ RESULTS COUNT ═══ */
+.results-count{
+  max-width:1400px;margin:0 auto 16px;padding:0 24px;
+  font-size:.85em;color:var(--text2);font-weight:600;
+}
+.results-count span{color:var(--gold);font-weight:800}
+
+/* ═══ GRID ═══ */
+.books-grid{
+  max-width:1400px;margin:0 auto;
+  padding:0 24px 60px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:24px;
+}
+
+/* ═══ BOOK CARD ═══ */
+.book-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);
+  display:flex;flex-direction:column;
+  transition:transform .35s,box-shadow .35s,border-color .35s;
+  position:relative;
+}
+.book-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--teal));
+  opacity:0;transition:opacity .3s;
+}
+.book-card:hover{
+  transform:translateY(-7px);
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  border-color:rgba(212,168,67,.25);
+}
+.book-card:hover::before{opacity:1}
+
+.cover-wrap{
+  position:relative;height:220px;
+  background:linear-gradient(135deg,#0d0f14,#1a1e28);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.cover-wrap::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(0deg,var(--card) 0%,transparent 40%);
+  pointer-events:none;z-index:1;
+}
+.cover-wrap img{
+  height:190px;max-width:130px;object-fit:cover;
+  border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.8);
+  transition:transform .4s;position:relative;
+}
+.book-card:hover .cover-wrap img{transform:scale(1.06)}
+
+.cover-placeholder{
+  width:120px;height:170px;
+  background:linear-gradient(135deg,rgba(212,168,67,.2),rgba(15,123,108,.2));
+  border:2px dashed rgba(212,168,67,.3);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:3.5em;position:relative;
+}
+
+.lang-badge{
+  position:absolute;top:14px;right:14px;
+  padding:5px 14px;border-radius:30px;
+  font-size:.72em;font-weight:800;color:#fff;z-index:3;
+  letter-spacing:.05em;
+}
+.l-ar{background:var(--ar)}.l-fr{background:var(--fr)}.l-en{background:var(--en)}
+
+.src-badge{
+  position:absolute;bottom:40px;left:14px;z-index:3;
+  padding:3px 10px;border-radius:8px;font-size:.65em;
+  background:rgba(13,15,20,.7);color:rgba(232,228,217,.7);
+  backdrop-filter:blur(8px);font-weight:700;border:1px solid var(--border);
+}
+
+.pages-badge{
+  position:absolute;top:14px;left:14px;z-index:3;
+  padding:4px 10px;border-radius:8px;font-size:.65em;
+  background:rgba(212,168,67,.15);color:var(--gold);
+  font-weight:700;border:1px solid rgba(212,168,67,.25);
+}
+
+.book-body{padding:20px;flex:1;display:flex;flex-direction:column;direction:rtl}
+
+.book-title{
+  font-size:1.05em;font-weight:800;line-height:1.5;
+  color:var(--text);margin-bottom:10px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+.book-author{font-size:.9em;color:var(--gold);font-weight:700;margin-bottom:5px}
+.book-pub{font-size:.8em;color:var(--text2);margin-bottom:12px}
+
+.book-meta{
+  display:flex;flex-wrap:wrap;gap:12px;
+  font-size:.75em;color:var(--text2);margin-bottom:12px;
+}
+.book-meta span{display:flex;align-items:center;gap:5px;font-weight:600}
+.book-meta span i{font-style:normal}
+
+.topics{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tag{
+  padding:3px 12px;border-radius:20px;font-size:.7em;
+  font-weight:700;letter-spacing:.04em;
+}
+.tag.geo{background:rgba(212,168,67,.1);color:var(--gold);border:1px solid rgba(212,168,67,.25)}
+.tag.topic{background:rgba(15,123,108,.1);color:var(--teal);border:1px solid rgba(15,123,108,.2)}
+.tag.hot{background:rgba(192,57,43,.1);color:#e67e73;border:1px solid rgba(192,57,43,.2)}
+.tag.type{background:rgba(124,77,170,.1);color:#a98fd9;border:1px solid rgba(124,77,170,.2)}
+
+.book-desc{
+  font-size:.83em;color:var(--text2);line-height:1.7;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  margin-bottom:16px;font-family:var(--font-body);
+}
+
+.book-actions{margin-top:auto;display:flex;gap:10px}
+.blink{
+  flex:1;padding:11px;text-align:center;border-radius:12px;
+  font-size:.82em;font-weight:700;text-decoration:none;transition:all .3s;
+  font-family:var(--font-ar);
+}
+.bp{
+  background:var(--gold);color:var(--bg);
+}
+.bp:hover{background:var(--gold2);transform:translateY(-2px)}
+.bs{
+  background:transparent;color:var(--text2);
+  border:1.5px solid var(--border);
+}
+.bs:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ═══ LOADER ═══ */
+.loader{text-align:center;padding:100px 20px;grid-column:1/-1}
+.spinner-wrap{position:relative;width:70px;height:70px;margin:0 auto 24px}
+.spinner{
+  width:70px;height:70px;border:3px solid var(--border);
+  border-top-color:var(--gold);border-radius:50%;
+  animation:spin 1.2s cubic-bezier(.68,-.55,.27,1.55) infinite;
+}
+.spinner-inner{
+  position:absolute;inset:12px;border:2px solid var(--border);
+  border-bottom-color:var(--teal);border-radius:50%;
+  animation:spin 1.8s linear infinite reverse;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader p{font-size:1em;color:var(--text2);font-weight:600}
+.loader small{font-size:.82em;color:var(--text2);opacity:.6;display:block;margin-top:8px}
+
+.no-res{text-align:center;padding:80px 20px;grid-column:1/-1;color:var(--text2)}
+.no-res .emoji{font-size:4em;margin-bottom:16px;display:block}
+
+/* ═══ NOTIF ═══ */
+.notif{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--card2);border:1px solid var(--gold);
+  color:var(--gold);padding:14px 24px;border-radius:14px;
+  font-weight:700;font-size:.9em;
+  box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 20px rgba(212,168,67,.1);
+  z-index:2000;display:none;animation:slideUp .5s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* ═══ FOOTER ═══ */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  text-align:center;padding:50px 20px;
+}
+.footer-logo{
+  font-family:var(--font-display);
+  font-size:1.8em;color:var(--gold);font-weight:700;margin-bottom:10px;
+}
+footer p{font-size:.85em;color:var(--text2);margin-bottom:6px;line-height:1.8}
+.footer-sources{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  margin:20px auto;max-width:600px;
+}
+.f-src{
+  padding:6px 16px;border-radius:30px;
+  border:1px solid var(--border);color:var(--text2);font-size:.78em;font-weight:700;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .hero h1{font-size:2em}
+  .books-grid{grid-template-columns:1fr}
+  .stats-bar{grid-template-columns:repeat(3,1fr)}
+  .filter-panel{gap:12px}
+  .divider{display:none}
+}
+@media(max-width:600px){
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:1.7em}
+  .hero-icon{font-size:3em}
+  .filter-panel{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-c">
+    <span class="hero-icon">🔍</span>
+    <h1>مرصد الفساد</h1>
+    <p class="hero-en">Corruption Books Observatory</p>
+    <div class="hero-line"></div>
+    <p class="info">
+      مرصد متخصص يجمع تلقائياً الكتب والتقارير (أكثر من 40 صفحة) المتعلقة بالفساد<br>
+      مع تركيز على العالم العربي وأفريقيا • بالعربية والإنجليزية والفرنسية
+    </p>
+    <div class="hero-tags">
+      <span class="hero-tag t1">🌍 العالم العربي</span>
+      <span class="hero-tag t2">🌍 أفريقيا</span>
+      <span class="hero-tag t3">⚖️ الحوكمة والشفافية</span>
+      <span class="hero-tag t4">📊 كتب وتقارير +40 صفحة</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ STATS BAR ══════════ -->
+<div class="stats-bar">
+  <div class="stat-card"><span class="icon">📚</span><div class="num" id="sTotal">-</div><div class="lbl">إجمالي الكتب</div></div>
+  <div class="stat-card"><span class="icon">🇸🇦</span><div class="num" id="sAr">-</div><div class="lbl">عربي</div></div>
+  <div class="stat-card"><span class="icon">🇬🇧</span><div class="num" id="sEn">-</div><div class="lbl">English</div></div>
+  <div class="stat-card"><span class="icon">🇫🇷</span><div class="num" id="sFr">-</div><div class="lbl">Français</div></div>
+  <div class="stat-card"><span class="icon">🏛️</span><div class="num" id="sPub">-</div><div class="lbl">ناشر</div></div>
+  <div class="stat-card"><span class="icon">🔗</span><div class="num" id="sSrc">-</div><div class="lbl">مصدر</div></div>
+</div>
+
+<!-- ══════════ CONTROLS ══════════ -->
+<div class="controls">
+  <div class="search-wrap">
+    <input type="text" class="search-box" id="searchInput"
+      placeholder="🔍  ابحث عن كتاب أو تقرير أو مؤلف أو ناشر..."
+      oninput="filterBooks()">
+    <span class="search-icon">⌕</span>
+  </div>
+  <div class="filter-panel">
+    <div class="filter-group">
+      <span class="filter-label">اللغة</span>
+      <button class="fbtn active" onclick="setLang('all',this)">الكل</button>
+      <button class="fbtn" onclick="setLang('ar',this)">عربي</button>
+      <button class="fbtn" onclick="setLang('en',this)">English</button>
+      <button class="fbtn" onclick="setLang('fr',this)">Français</button>
+    </div>
+    <div class="divider"></div>
+    <div class="filter-group">
+      <span class="filter-label">المنطقة</span>
+      <select class="sel" id="regionSel" onchange="filterBooks()">
+        <option value="">كل المناطق</option>
+        <option value="Arab">العالم العربي 🌍</option>
+        <option value="Africa">أفريقيا 🌍</option>
+        <option value="Global">عالمي 🌐</option>
+        <option value="North Africa">شمال أفريقيا</option>
+        <option value="Sub-Saharan">أفريقيا جنوب الصحراء</option>
+        <option value="Gulf">الخليج العربي</option>
+        <option value="Maghreb">المغرب العربي</option>
+        <option value="Levant">المشرق العربي</option>
+      </select>
+    </div>
+    <div class="divider"></div>
+    <div class="filter-group">
+      <span class="filter-label">الموضوع</span>
+      <select class="sel" id="topicSel" onchange="filterBooks()">
+        <option value="">كل المواضيع</option>
+        <option value="Bribery">الرشوة</option>
+        <option value="Money Laundering">غسيل الأموال</option>
+        <option value="Governance">الحوكمة</option>
+        <option value="Transparency">الشفافية</option>
+        <option value="Accountability">المساءلة</option>
+        <option value="Kleptocracy">الكليبتوقراطية</option>
+        <option value="Tax Evasion">التهرب الضريبي</option>
+        <option value="Public Sector">القطاع العام</option>
+        <option value="Oil">النفط والموارد</option>
+        <option value="Judiciary">القضاء</option>
+        <option value="Media">الإعلام</option>
+        <option value="Democracy">الديمقراطية</option>
+        <option value="Anticorruption">مكافحة الفساد</option>
+      </select>
+    </div>
+    <div class="divider"></div>
+    <div class="filter-group">
+      <span class="filter-label">الترتيب</span>
+      <select class="sel" id="sortSel" onchange="filterBooks()">
+        <option value="newest">الأحدث</option>
+        <option value="oldest">الأقدم</option>
+        <option value="rating">التقييم</option>
+        <option value="most_pages">الأكثر صفحات</option>
+        <option value="title">العنوان</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ UPDATE BAR ══════════ -->
+<div class="update-bar">
+  <div class="live"><span class="live-dot"></span><span>تحديث يومي تلقائي</span></div>
+  <span class="time" id="lastUp">جاري التحميل...</span>
+  <button class="rbtn" id="rBtn" onclick="manualRefresh()">🔄 تحديث الآن</button>
+</div>
+
+<!-- ══════════ PROGRESS ══════════ -->
+<div class="pbar" id="pbar">
+  <div class="ptrack"><div class="pfill" id="pfill"></div></div>
+  <div class="ptxt" id="ptxt">جاري البحث في المصادر...</div>
+</div>
+
+<!-- ══════════ RESULTS COUNT ══════════ -->
+<div class="results-count" id="resultsCt"></div>
+
+<!-- ══════════ GRID ══════════ -->
+<div class="books-grid" id="grid">
+  <div class="loader">
+    <div class="spinner-wrap"><div class="spinner"></div><div class="spinner-inner"></div></div>
+    <p>جاري تحميل الكتب والتقارير...</p>
+    <small>نبحث في Google Books, Open Library, Crossref</small>
+  </div>
+</div>
+
+<!-- ══════════ NOTIF ══════════ -->
+<div class="notif" id="notif"></div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-logo">مرصد الفساد</div>
+  <p style="color:var(--gold);font-size:.95em;margin-bottom:12px">Corruption Books Observatory</p>
+  <p>يجمع تلقائياً الكتب والتقارير المتعلقة بالفساد في العالم العربي وأفريقيا</p>
+  <div class="footer-sources">
+    <span class="f-src">📗 Google Books</span>
+    <span class="f-src">📘 Open Library</span>
+    <span class="f-src">📙 Crossref</span>
+  </div>
+  <p style="font-size:.78em;opacity:.5;margin-top:16px">Corruption Books Observatory © 2026</p>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// مرصد الفساد v1 - Corruption Books Observatory
+// يجمع الكتب والتقارير عن الفساد مع التركيز على العالم العربي وأفريقيا
+// ══════════════════════════════════════════════════════════
+
+let ALL_BOOKS = [];
+let currentLang = 'all';
+let isUpdating = false;
+let activeSources = new Set();
+const DAILY_MS = 24 * 60 * 60 * 1000;
+const CACHE_KEY = 'corruption_obs_v2';
+const MIN_YEAR = 2019;
+const MIN_PAGES = 40;
+
+// ══════════ Helpers ══════════
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function fmtDate(dateStr) {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return '';
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[d.getMonth()] + ' ' + d.getFullYear();
+  } catch(e) { return ''; }
+}
+
+function fmtDateTime() {
+  const d = new Date();
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const h = String(d.getHours()).padStart(2,'0');
+  const m = String(d.getMinutes()).padStart(2,'0');
+  return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear() + ', ' + h + ':' + m;
+}
+
+// ══════════ كشف اللغة ══════════
+function detectLang(text) {
+  if (!text) return 'en';
+  if (/[\u0600-\u06FF]/.test(text)) return 'ar';
+  const frWords = /\b(le|la|les|du|des|une?|et|ou|qui|dans|pour|avec|sur|corruption|gouvernance|transparence|afrique|livre|rapport)\b/i;
+  if (/[àâéèêëïîôùûüÿçœæ]/i.test(text) || frWords.test(text)) return 'fr';
+  return 'en';
+}
+
+// ══════════ فلتر الفساد الصارم ══════════
+const CORRUPTION_KW = [
+  // EN
+  'corruption','corrupt','bribery','bribe','embezzlement','embezzle',
+  'kleptocracy','kleptocrat','nepotism','cronyism','fraud','fraudulent',
+  'money laundering','illicit finance','illicit flow',
+  'governance failure','bad governance','misgovernance',
+  'accountability deficit','lack of accountability',
+  'state capture','political corruption','grand corruption',
+  'petty corruption','systemic corruption','endemic corruption',
+  'anticorruption','anti-corruption','fighting corruption','combat corruption',
+  'transparency international','open government','good governance',
+  'public integrity','ethics','conflict of interest',
+  'tax evasion','tax haven','offshore finance','shell company',
+  'ghost worker','procurement fraud','kickback','slush fund',
+  'misappropriation','misuse of power','abuse of office',
+  'looting','plunder','pillage','rent-seeking',
+  'patronage','clientelism','neopatrimonialism',
+  'resource curse','dutch disease','oil curse',
+  'decentralization corruption','local corruption',
+  'judicial corruption','police corruption','customs corruption',
+  'election fraud','vote buying','campaign finance',
+  'whistleblower','asset recovery','mutual legal assistance',
+  'UNCAC','convention against corruption','fatf','financial action',
+  // FR
+  'corruption','corrupteur','corrompre','détournement','malversation',
+  'blanchiment','financement illicite','paradis fiscal',
+  'gouvernance','mauvaise gouvernance','redevabilité',
+  'transparence','intégrité publique','éthique publique',
+  'pot-de-vin','clientélisme','favoritisme','piston',
+  'capture de l\'état','grande corruption','petite corruption',
+  'lutte contre la corruption','anticorruption','bonne gouvernance',
+  'sociétés-écrans','flux financiers illicites','evasion fiscale',
+  'pillage des ressources','malédiction des ressources',
+  'détournement de fonds','abus de pouvoir','abus de fonction',
+  'nepotisme','cronyisme','enrichissement illicite',
+  'lanceur d\'alerte','recouvrement d\'avoirs',
+  'convention des nations unies contre la corruption',
+  // AR
+  'فساد','فاسد','فاسدة','فاسدون',
+  'رشوة','رشوت','ارتشاء',
+  'اختلاس','اختلاسات','غسيل الأموال','غسل الاموال',
+  'كليبتوقراطية','محسوبية','واسطة','تحابي',
+  'فساد إداري','فساد مالي','فساد سياسي',
+  'مكافحة الفساد','مناهضة الفساد',
+  'الحوكمة','حوكمة رشيدة','سوء الحوكمة',
+  'الشفافية','المساءلة','المحاسبة','النزاهة',
+  'تهرب ضريبي','ملاذات ضريبية','تدفقات مالية غير مشروعة',
+  'نهب الثروات','نهب الموارد','اقتصاد ريعي','لعنة الموارد',
+  'فساد قضائي','فساد انتخابي','شراء الأصوات',
+  'شركات وهمية','موظفون وهميون','عمال أشباح',
+  'ضرب الإتاوة','انتزاع الريع','الزبائنية',
+  'التقاط الدولة','سيطرة النخب','نيوباتريمونيالية',
+  'المال السياسي','تمويل الأحزاب',
+  'المبلغون عن الفساد','استرداد الأصول المنهوبة',
+  'اتفاقية الأمم المتحدة لمكافحة الفساد',
+  'منظمة الشفافية الدولية'
+];
+
+const REGION_KW = {
+  Arab: [
+    'arab world','middle east','north africa','mena',
+    'egypt','algeria','morocco','tunisia','libya',
+    'saudi arabia','iraq','syria','yemen','jordan',
+    'lebanon','sudan','mauritania','somalia','comoros',
+    'uae','qatar','kuwait','bahrain','oman',
+    'العالم العربي','الشرق الأوسط','شمال أفريقيا','منا',
+    'مصر','الجزائر','المغرب','تونس','ليبيا',
+    'السعودية','العراق','سوريا','اليمن','الأردن',
+    'لبنان','السودان','موريتانيا','الصومال','جزر القمر',
+    'الإمارات','قطر','الكويت','البحرين','عُمان',
+    'monde arabe','moyen-orient','afrique du nord',
+    'égypte','algérie','maroc','tunisie','libye',
+    'arabie saoudite','iraq','syrie','yémen','jordanie',
+    'liban','soudan','mauritanie','somalie'
+  ],
+  Africa: [
+    'africa','african','sub-saharan',
+    'nigeria','kenya','ghana','ethiopia','tanzania',
+    'south africa','cameroon','senegal','ivory coast','mali',
+    'democratic republic congo','drc','angola','mozambique',
+    'zimbabwe','rwanda','uganda','zambia','madagascar',
+    'gabon','equatorial guinea','eritrea','chad','guinea',
+    'أفريقيا','نيجيريا','كينيا','غانا','إثيوبيا','تنزانيا',
+    'جنوب أفريقيا','الكاميرون','السنغال','مالي','أنغولا',
+    'afrique','africain','subsaharienne',
+    'nigeria','kenya','ghana','éthiopie','tanzanie',
+    'afrique du sud','cameroun','sénégal','mali','angola'
+  ]
+};
+
+// Authors known for corruption studies
+const KNOWN_AUTHORS = [
+  'susan rose-ackerman','pieth','mark pieth','daniel kaufmann',
+  'luigi zingales','moíses naím','moisés naim',
+  'sarah chayes','daron acemoglu','james robinson',
+  'mushtaq khan','paul collier','leonce ndikumana',
+  'james k. boyce','nicholas shaxson','oliver bullough',
+  'tom burgis','heather marquette','ann marie goetz',
+  'alena ledeneva','jorge g. castañeda',
+  'transparency international','u4 anti-corruption',
+  'global financial integrity','global witness',
+  'منظمة الشفافية الدولية','سعد المجددي','محمد الغنوشي',
+  'إسماعيل صبري مقلد','نهاد الشيخ','أحمد زكي',
+  'susan rose-ackerman','jean-pierre leca',
+  'jean-paul carteron','pierre jacquemot',
+  'sandrine perrot','jean-pierre olivier de sardan',
+  'blundo','giorgio blundo','david bach'
+];
+
+function isCorruptionBook(title, description, authors, pages) {
+  const titleL = (title || '').toLowerCase();
+  const descL = (description || '').toLowerCase();
+  const authL = (authors || []).join(' ').toLowerCase();
+  const allText = titleL + ' ' + descL;
+
+  // Must have enough pages
+  if (pages !== null && pages !== undefined && pages > 0 && pages < MIN_PAGES) return { pass: false };
+
+  // Title match (strong)
+  for (const kw of CORRUPTION_KW) {
+    if (titleL.includes(kw.toLowerCase())) return { pass: true };
+  }
+
+  // Description: need 2+ hits
+  let hits = 0;
+  for (const kw of CORRUPTION_KW) {
+    if (descL.includes(kw.toLowerCase())) hits++;
+    if (hits >= 2) return { pass: true };
+  }
+
+  // Known author + corruption hint
+  for (const a of KNOWN_AUTHORS) {
+    if (authL.includes(a.toLowerCase())) {
+      if (CORRUPTION_KW.some(kw => allText.includes(kw.toLowerCase()))) return { pass: true };
+    }
+  }
+
+  return { pass: false };
+}
+
+// ══════════ كشف المنطقة ══════════
+function detectRegion(title, desc) {
+  const all = ((title || '') + ' ' + (desc || '')).toLowerCase();
+  for (const [region, kws] of Object.entries(REGION_KW)) {
+    for (const kw of kws) {
+      if (all.includes(kw.toLowerCase())) return region;
+    }
+  }
+  return 'Global';
+}
+
+// ══════════ كشف المواضيع ══════════
+function detectTopics(title, desc, region) {
+  const t = ((title || '') + ' ' + (desc || '')).toLowerCase();
+  const out = [];
+
+  // Region tag first
+  if (region === 'Arab') out.push('العالم العربي');
+  else if (region === 'Africa') out.push('أفريقيا');
+  else if (region === 'North Africa') out.push('شمال أفريقيا');
+  else if (region === 'Sub-Saharan') out.push('أفريقيا جنوب الصحراء');
+  else if (region === 'Gulf') out.push('الخليج');
+  else if (region === 'Maghreb') out.push('المغرب العربي');
+  else if (region === 'Levant') out.push('المشرق العربي');
+
+  const map = [
+    [/brib|rsh|pot-de-vin|رشو/i, 'Bribery'],
+    [/launder|blanchiment|غسيل|غسل الأموال/i, 'Money Laundering'],
+    [/governance|gouvernance|حوكمة/i, 'Governance'],
+    [/transparency|transparence|شفافية/i, 'Transparency'],
+    [/accountability|redevabilité|مساءلة|محاسبة/i, 'Accountability'],
+    [/kleptocracy|kleptocrat|كليبتو/i, 'Kleptocracy'],
+    [/tax evasion|évasion fiscale|تهرب ضريب/i, 'Tax Evasion'],
+    [/public sector|secteur public|قطاع عام/i, 'Public Sector'],
+    [/oil|petroleum|ressources naturelles|نفط|بترول|موارد/i, 'Oil & Resources'],
+    [/judiciary|justice|قضاء/i, 'Judiciary'],
+    [/media|médias|إعلام/i, 'Media'],
+    [/democracy|démocratie|ديمقراطية/i, 'Democracy'],
+    [/anticorruption|anti-corruption|مكافحة الفساد/i, 'Anticorruption'],
+    [/embezzl|détournement|اختلاس/i, 'Embezzlement'],
+    [/nepotism|nepotisme|محسوبية/i, 'Nepotism'],
+    [/resource curse|malédiction.*ressources|لعنة الموارد/i, 'Resource Curse'],
+    [/state capture|capture.*état|التقاط الدولة/i, 'State Capture'],
+    [/election|élection|انتخاب/i, 'Elections'],
+    [/whistleblow|lanceur.*alerte|مبلغ/i, 'Whistleblowing'],
+    [/asset recovery|recouvrement.*avoirs|استرداد الأصول/i, 'Asset Recovery'],
+    [/illicit financ|financement illicite|تمويل غير مشروع/i, 'Illicit Finance'],
+  ];
+
+  for (const [rx, label] of map) {
+    if (rx.test(t)) out.push(label);
+  }
+
+  return out.length ? [...new Set(out)].slice(0, 6) : ['Corruption'];
+}
+
+// ══════════ إزالة التكرار ══════════
+function normT(s) {
+  return (s || '').toLowerCase().replace(/[^\w\s\u0600-\u06FF]/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 80);
+}
+
+function dedup(books) {
+  const seenIsbn = new Set();
+  const seenTitles = [];
+  const out = [];
+
+  for (const b of books) {
+    const nt = normT(b.title);
+    if (!nt || nt.length < 5) continue;
+
+    const isbn = (b.isbn || '').replace(/[^0-9X]/gi, '');
+    if (isbn.length >= 10) {
+      if (seenIsbn.has('i:' + isbn)) continue;
+      seenIsbn.add('i:' + isbn);
+    }
+
+    let dup = false;
+    for (const et of seenTitles) {
+      if (nt === et) { dup = true; break; }
+      const w1 = new Set(nt.split(' ').filter(w => w.length > 3));
+      const w2 = new Set(et.split(' ').filter(w => w.length > 3));
+      if (w1.size >= 3 && w2.size >= 3) {
+        const inter = [...w1].filter(x => w2.has(x)).length;
+        const union = new Set([...w1, ...w2]).size;
+        if (inter / union > 0.75) { dup = true; break; }
+      }
+    }
+    if (dup) continue;
+
+    seenTitles.push(nt);
+    out.push(b);
+  }
+  return out;
+}
+
+// ══════════ QUERIES ══════════
+const QUERIES = {
+  en: [
+    // Core corruption
+    "corruption Arab world","corruption Africa","corruption Middle East",
+    "corruption North Africa","corruption Sub-Saharan Africa",
+    // Country-specific
+    "corruption Egypt","corruption Algeria","corruption Morocco","corruption Tunisia",
+    "corruption Libya","corruption Saudi Arabia","corruption Iraq","corruption Syria",
+    "corruption Yemen","corruption Lebanon","corruption Sudan",
+    "corruption Nigeria","corruption Kenya","corruption Ghana","corruption Ethiopia",
+    "corruption South Africa","corruption Angola","corruption Cameroon","corruption Senegal",
+    "corruption DRC Congo","corruption Tanzania","corruption Uganda","corruption Zambia",
+    // Thematic
+    "governance Arab world","governance Africa",
+    "kleptocracy Africa","kleptocracy Middle East",
+    "money laundering Arab","illicit finance Africa",
+    "embezzlement Africa","embezzlement Arab",
+    "bribery Arab countries","bribery Africa",
+    "state capture Africa","state capture MENA",
+    "oil corruption Africa","resource curse Africa",
+    "resource curse Arab","dutch disease Africa",
+    "anticorruption Africa book","anticorruption Arab book",
+    "transparency governance developing countries",
+    "accountability governance Africa",
+    "patronage Africa","clientelism Arab",
+    "neopatrimonialism Africa",
+    "tax evasion Africa","illicit financial flows Africa",
+    "offshore finance developing countries",
+    "procurement corruption Africa",
+    "election fraud Africa","vote buying Africa",
+    "judicial corruption MENA",
+    "whistleblower Africa",
+    "asset recovery Africa",
+    "UNCAC developing countries",
+    // Authors / publishers
+    "Sarah Chayes corruption","Oliver Bullough kleptocracy",
+    "Nicholas Shaxson tax havens","Tom Burgis Africa looting",
+    "Paul Collier Africa corruption","Leonce Ndikumana Africa",
+    "Global Financial Integrity illicit flows",
+    "corruption developing countries book 2023",
+    "corruption book 2024","governance book Africa 2024",
+    "corruption political economy MENA",
+    "human rights corruption Africa",
+    "anti-corruption reform Arab","anti-corruption reform Africa",
+    "corruption poverty Africa","inequality corruption Africa",
+  ],
+  fr: [
+    // Général corruption Afrique & Monde arabe
+    "corruption Afrique","corruption monde arabe",
+    "corruption Afrique subsaharienne","corruption Afrique du nord",
+    // Pays
+    "corruption Algérie","corruption Maroc","corruption Tunisie",
+    "corruption Égypte","corruption Libye","corruption Soudan",
+    "corruption Nigeria","corruption Kenya","corruption Sénégal",
+    "corruption Congo RDC","corruption Cameroun","corruption Mali",
+    "corruption Afrique du Sud","corruption Angola","corruption Éthiopie",
+    // Thématique
+    "gouvernance Afrique","gouvernance monde arabe",
+    "gouvernance démocratique Afrique",
+    "bonne gouvernance Afrique",
+    "blanchiment argent Afrique","financement illicite Afrique",
+    "détournement fonds Afrique","malversation Afrique",
+    "kleptocracy Afrique","kleptocratie Afrique",
+    "pot-de-vin Afrique","clientélisme Afrique",
+    "patrimonialisme Afrique","néo-patrimonialisme",
+    "évasion fiscale Afrique","paradis fiscal",
+    "flux financiers illicites Afrique",
+    "capture de l'état Afrique",
+    "ressources naturelles corruption Afrique",
+    "malédiction des ressources Afrique",
+    "corruption pétrolière Afrique",
+    "marchés publics corruption Afrique",
+    "fraude électorale Afrique",
+    "corruption judiciaire Afrique",
+    "anticorruption Afrique livre","lutte contre corruption Afrique",
+    "transparence gouvernance Afrique",
+    "recouvrement avoirs Afrique",
+    "lanceur alerte Afrique",
+    "corruption développement Afrique",
+    "inégalités corruption Afrique",
+    // Auteurs / éditeurs FR
+    "Jean-Pierre Olivier de Sardan corruption",
+    "Giorgio Blundo corruption Afrique",
+    "Pierre Jacquemot Afrique gouvernance",
+    "Sandrine Perrot Afrique",
+    "corruption Karthala Afrique","corruption CFPJ Afrique",
+    "anti-corruption réforme Afrique",
+    "transparence internationale Afrique",
+    "corruption institutions Afrique livre 2023",
+    "corruption institutions Afrique livre 2024",
+    "gouvernance livre 2023 Afrique",
+    "gouvernance livre 2024 Afrique",
+    "corruption monde arabe livre","corruption Maghreb livre",
+    "corruption Machrek livre",
+    "fraude fiscale Afrique livre","corruption ressources minières",
+  ],
+  ar: [
+    // عربي عام
+    "الفساد في الوطن العربي","الفساد في العالم العربي",
+    "الفساد الإداري العربي","الفساد السياسي في الدول العربية",
+    "الحوكمة في الدول العربية","سوء الحوكمة العربية",
+    "الشفافية في الدول العربية","المساءلة والمحاسبة العربية",
+    // حسب البلد
+    "الفساد في مصر","الفساد في الجزائر","الفساد في المغرب",
+    "الفساد في تونس","الفساد في ليبيا","الفساد في السودان",
+    "الفساد في السعودية","الفساد في العراق","الفساد في سوريا",
+    "الفساد في لبنان","الفساد في اليمن","الفساد في الأردن",
+    "الفساد في الكويت","الفساد في قطر","الفساد في الإمارات",
+    // أفريقيا بالعربية
+    "الفساد في أفريقيا","الحوكمة في أفريقيا",
+    "الفساد في نيجيريا","الفساد في السودان وأفريقيا",
+    // مواضيع
+    "الرشوة في الدول العربية","الرشوة والفساد كتاب",
+    "غسيل الأموال والفساد","غسل الأموال العربي",
+    "الاختلاس في الدول العربية","تهريب الأموال العربية",
+    "المحسوبية والواسطة كتاب","الزبائنية السياسية",
+    "الفساد والنفط في الدول العربية","لعنة الموارد عربي",
+    "الفساد وسوء توزيع الثروات","نهب الثروات العربية",
+    "مكافحة الفساد في العالم العربي","إصلاح مكافحة الفساد",
+    "مكافحة الفساد في أفريقيا","الإصلاح الإداري العربي",
+    "الشفافية والمساءلة في الحكومات العربية",
+    "استقلال القضاء والفساد","الفساد القضائي العربي",
+    "المال السياسي والفساد","تمويل الأحزاب والفساد",
+    "الانتخابات والفساد في الدول العربية",
+    "التهرب الضريبي والفساد","الملاذات الضريبية",
+    "التدفقات المالية غير المشروعة","الأموال المهربة",
+    "استرداد الأصول المنهوبة","الأموال المنهوبة العربية",
+    "اتفاقية الأمم المتحدة لمكافحة الفساد",
+    "منظمة الشفافية الدولية تقرير",
+    "مؤشر الفساد في الدول العربية",
+    "الديمقراطية والفساد في العالم العربي",
+    "الربيع العربي والفساد","ما بعد الربيع العربي والإصلاح",
+    "الفساد والتنمية الاقتصادية العربية",
+    "الفساد والفقر في الدول العربية",
+    "الفساد والإعلام كتاب عربي",
+    "المجتمع المدني ومكافحة الفساد",
+    "المرأة ومكافحة الفساد",
+    "الفساد في قطاع التعليم عربي","الفساد في قطاع الصحة عربي",
+    "الفساد في قطاع البناء والإسكان",
+    "الفساد في الصفقات العسكرية",
+    "الفساد والأمن القومي العربي",
+    "الفساد والإرهاب","الفساد ودعم التطرف",
+    "إدوارد سعيد الفساد","فالح عبد الجبار",
+    "الدراسات الفلسطينية والفساد",
+    "المركز العربي للأبحاث والفساد",
+  ]
+};
+
+// ══════════ Google Books ══════════
+async function fetchGoogle(query, langRestrict) {
+  const books = [];
+  try {
+    const params = new URLSearchParams({
+      q: query, printType: 'books',
+      orderBy: 'newest', maxResults: '40'
+    });
+    if (langRestrict === 'ar' || langRestrict === 'fr') params.set('langRestrict', langRestrict);
+
+    const resp = await fetch(`https://www.googleapis.com/books/v1/volumes?${params}`);
+    if (resp.status === 429) { await sleep(6000); return books; }
+    if (!resp.ok) return books;
+    const data = await resp.json();
+
+    for (const item of (data.items || [])) {
+      try {
+        const v = item.volumeInfo || {};
+        const title = v.title || '';
+        if (!title || title.length < 3) continue;
+
+        const pubDate = v.publishedDate || '';
+        let year = 0;
+        if (pubDate) year = parseInt(pubDate.substring(0, 4));
+        if (year > 0 && year < MIN_YEAR) continue;
+        if (!year) continue;
+
+        const pages = v.pageCount || null;
+        if (pages && pages < MIN_PAGES) continue;
+
+        const desc = (v.description || '').substring(0, 600);
+        const authors = v.authors || [];
+        const fullTitle = title + (v.subtitle ? ': ' + v.subtitle : '');
+
+        if (!isCorruptionBook(fullTitle, desc, authors, pages).pass) continue;
+
+        const lang = v.language === 'ar' ? 'ar' : v.language === 'fr' ? 'fr' : detectLang(title);
+        const isbns = v.industryIdentifiers || [];
+        const region = detectRegion(fullTitle, desc);
+
+        books.push({
+          id: item.id,
+          title: fullTitle,
+          authors, publisher: v.publisher || '',
+          publication_date: pubDate,
+          pages, 
+          isbn: (isbns.find(i => i.type === 'ISBN_13') || isbns.find(i => i.type === 'ISBN_10') || {}).identifier || '',
+          book_url: v.infoLink || '',
+          cover: ((v.imageLinks && v.imageLinks.thumbnail) || '').replace('http:', 'https:'),
+          description: desc, language: lang, region,
+          topics: detectTopics(fullTitle, desc, region),
+          source: 'Google Books', rating: v.averageRating || null,
+          addedAt: Date.now()
+        });
+      } catch(e) {}
+    }
+    if (books.length > 0) activeSources.add('Google Books');
+  } catch(e) {}
+  return books;
+}
+
+// ══════════ Open Library ══════════
+async function fetchOpenLib(query) {
+  const books = [];
+  try {
+    const resp = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=25&sort=new`);
+    if (!resp.ok) return books;
+    const data = await resp.json();
+
+    for (const doc of (data.docs || [])) {
+      try {
+        const title = doc.title || '';
+        if (!title) continue;
+        const year = doc.first_publish_year || 0;
+        if (year > 0 && year < MIN_YEAR) continue;
+        if (!year) continue;
+
+        const pages = doc.number_of_pages_median || null;
+        if (pages && pages < MIN_PAGES) continue;
+
+        const subjects = (doc.subject || []).join(' ');
+        const authors = doc.author_name || [];
+        if (!isCorruptionBook(title, subjects, authors, pages).pass) continue;
+
+        const coverId = doc.cover_i;
+        const region = detectRegion(title, subjects);
+
+        books.push({
+          id: 'ol_' + doc.key,
+          title, authors,
+          publisher: (doc.publisher || [])[0] || '',
+          publication_date: year + '-01-01',
+          pages,
+          isbn: (doc.isbn || [])[0] || '',
+          book_url: 'https://openlibrary.org' + doc.key,
+          cover: coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : '',
+          description: '', language: detectLang(title), region,
+          topics: detectTopics(title, subjects, region),
+          source: 'Open Library', rating: null, addedAt: Date.now()
+        });
+      } catch(e) {}
+    }
+    if (books.length > 0) activeSources.add('Open Library');
+  } catch(e) {}
+  return books;
+}
+
+// ══════════ Crossref ══════════
+async function fetchCrossref(query) {
+  const books = [];
+  try {
+    const params = new URLSearchParams({
+      query,
+      filter: `type:book,from-pub-date:${MIN_YEAR}-01-01`,
+      rows: '15', sort: 'published', order: 'desc'
+    });
+    const resp = await fetch(`https://api.crossref.org/works?${params}`, {
+      headers: { 'User-Agent': 'CorruptionObservatory/1.0 (mailto:observatory@example.com)' }
+    });
+    if (!resp.ok) return books;
+    const data = await resp.json();
+
+    for (const item of ((data.message && data.message.items) || [])) {
+      try {
+        const title = (item.title || [])[0] || '';
+        if (!title) continue;
+        const authors = (item.author || []).map(a => `${a.given || ''} ${a.family || ''}`.trim());
+        const subjects = (item.subject || []).join(' ');
+        if (!isCorruptionBook(title, subjects, authors, null).pass) continue;
+
+        const dp = (item['published-print'] && item['published-print']['date-parts'] && item['published-print']['date-parts'][0]) ||
+                   (item['published-online'] && item['published-online']['date-parts'] && item['published-online']['date-parts'][0]);
+        const yr = dp ? dp[0] : 0;
+        if (yr > 0 && yr < MIN_YEAR) continue;
+        const pubDate = dp ? `${dp[0]}-${String(dp[1] || 1).padStart(2,'0')}-${String(dp[2] || 1).padStart(2,'0')}` : '2023-01-01';
+
+        const region = detectRegion(title, subjects);
+        books.push({
+          id: 'cr_' + (item.DOI || Math.random().toString(36).substr(2, 9)),
+          title, authors, publisher: item.publisher || '',
+          publication_date: pubDate,
+          pages: null,
+          isbn: (item.ISBN || [])[0] || '',
+          book_url: item.URL || (item.DOI ? `https://doi.org/${item.DOI}` : ''),
+          cover: '', description: '',
+          language: detectLang(title), region,
+          topics: detectTopics(title, subjects, region),
+          source: 'Crossref', rating: null, addedAt: Date.now()
+        });
+      } catch(e) {}
+    }
+    if (books.length > 0) activeSources.add('Crossref');
+  } catch(e) {}
+  return books;
+}
+
+// ══════════ MAIN ENGINE ══════════
+async function fetchAllBooks() {
+  if (isUpdating) return;
+  isUpdating = true;
+  activeSources.clear();
+  const prevCount = ALL_BOOKS.length;
+
+  document.getElementById('pbar').style.display = 'block';
+  document.getElementById('rBtn').disabled = true;
+
+  if (ALL_BOOKS.length === 0) {
+    document.getElementById('grid').innerHTML = `
+      <div class="loader">
+        <div class="spinner-wrap"><div class="spinner"></div><div class="spinner-inner"></div></div>
+        <p>جاري جلب الكتب والتقارير...</p>
+        <small>نبحث في Google Books, Open Library, Crossref</small>
+      </div>`;
+  }
+
+  const newBooks = [];
+  const tasks = [];
+
+  for (const q of QUERIES.en) tasks.push({ api: 'google', q, lang: 'en' });
+  for (const q of QUERIES.fr) tasks.push({ api: 'google', q, lang: 'fr' });
+  for (const q of QUERIES.ar) tasks.push({ api: 'google', q, lang: 'ar' });
+  for (const q of QUERIES.en.slice(0, 20)) tasks.push({ api: 'openlib', q, lang: 'en' });
+  for (const q of QUERIES.fr.slice(0, 15)) tasks.push({ api: 'openlib', q, lang: 'fr' });
+  for (const q of QUERIES.ar.slice(0, 15)) tasks.push({ api: 'openlib', q, lang: 'ar' });
+  for (const q of QUERIES.en.slice(0, 12)) tasks.push({ api: 'crossref', q, lang: 'en' });
+  for (const q of QUERIES.fr.slice(0, 10)) tasks.push({ api: 'crossref', q, lang: 'fr' });
+
+  const total = tasks.length;
+  let done = 0;
+
+  for (const task of tasks) {
+    done++;
+    const pct = Math.round((done / total) * 100);
+    document.getElementById('pfill').style.width = pct + '%';
+    document.getElementById('ptxt').textContent =
+      pct + '% — ' + task.api + ' [' + task.lang + ']: ' + task.q.substring(0, 40) + '…';
+
+    let result = [];
+    try {
+      if (task.api === 'google') result = await fetchGoogle(task.q, task.lang);
+      else if (task.api === 'openlib') result = await fetchOpenLib(task.q);
+      else if (task.api === 'crossref') result = await fetchCrossref(task.q);
+    } catch(e) {}
+
+    if (result.length > 0) newBooks.push(...result);
+
+    const delay = task.api === 'google' ? 550 : task.api === 'crossref' ? 1100 : 450;
+    await sleep(delay);
+  }
+
+  const combined = [...ALL_BOOKS, ...newBooks];
+  ALL_BOOKS = dedup(combined);
+  ALL_BOOKS.sort((a, b) => new Date(b.publication_date) - new Date(a.publication_date));
+
+  const addedCount = ALL_BOOKS.length - prevCount;
+
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      books: ALL_BOOKS, timestamp: Date.now(),
+      sources: [...activeSources]
+    }));
+  } catch(e) {}
+
+  document.getElementById('pbar').style.display = 'none';
+  document.getElementById('rBtn').disabled = false;
+  isUpdating = false;
+
+  updateStats(); filterBooks(); updateTime();
+  if (addedCount > 0 && prevCount > 0) showNotif('✅ تمت إضافة ' + addedCount + ' كتاب/تقرير جديد!');
+}
+
+function showNotif(msg) {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 5000);
+}
+
+// ══════════ FILTER & SORT ══════════
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.fbtn').forEach(b => {
+    b.className = 'fbtn';
+  });
+  if (lang === 'all') btn.classList.add('active');
+  else btn.classList.add('a-' + lang);
+  filterBooks();
+}
+
+function filterBooks() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const topic = document.getElementById('topicSel').value;
+  const region = document.getElementById('regionSel').value;
+  const sort = document.getElementById('sortSel').value;
+
+  let list = ALL_BOOKS.filter(b => {
+    if (currentLang !== 'all' && b.language !== currentLang) return false;
+    if (region) {
+      if (region === 'Arab' && b.region !== 'Arab') return false;
+      if (region === 'Africa' && b.region !== 'Africa' && b.region !== 'Sub-Saharan' && b.region !== 'North Africa') return false;
+      if (region !== 'Arab' && region !== 'Africa' && b.region !== region) return false;
+    }
+    if (topic && !b.topics.some(t => t.toLowerCase().includes(topic.toLowerCase()))) return false;
+    if (search) {
+      const hay = (b.title + ' ' + b.authors.join(' ') + ' ' + b.publisher + ' ' + (b.description || '')).toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  switch (sort) {
+    case 'newest': list.sort((a, b) => new Date(b.publication_date) - new Date(a.publication_date)); break;
+    case 'oldest': list.sort((a, b) => new Date(a.publication_date) - new Date(b.publication_date)); break;
+    case 'rating': list.sort((a, b) => (b.rating || 0) - (a.rating || 0)); break;
+    case 'most_pages': list.sort((a, b) => (b.pages || 0) - (a.pages || 0)); break;
+    case 'title': list.sort((a, b) => a.title.localeCompare(b.title, 'ar')); break;
+  }
+
+  document.getElementById('resultsCt').innerHTML = list.length
+    ? 'عرض <span>' + list.length + '</span> من أصل <span>' + ALL_BOOKS.length + '</span> كتاب وتقرير'
+    : '';
+
+  renderBooks(list);
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+function renderBooks(books) {
+  const grid = document.getElementById('grid');
+
+  if (!books.length && ALL_BOOKS.length === 0) {
+    grid.innerHTML = `
+      <div class="loader">
+        <div class="spinner-wrap"><div class="spinner"></div><div class="spinner-inner"></div></div>
+        <p>جاري جلب الكتب والتقارير...</p>
+      </div>`;
+    return;
+  }
+
+  if (!books.length) {
+    grid.innerHTML = `
+      <div class="no-res">
+        <span class="emoji">🔍</span>
+        <p style="font-size:1.1em;font-weight:700;color:var(--text)">لا توجد نتائج مطابقة</p>
+        <p style="margin-top:8px;font-size:.9em">جرب تغيير الفلاتر أو مصطلح البحث</p>
+      </div>`;
+    return;
+  }
+
+  const hotTopics = ['Kleptocracy','State Capture','Embezzlement','Corruption','Resource Curse','Illicit Finance'];
+  const geoTopics = ['العالم العربي','أفريقيا','شمال أفريقيا','المغرب العربي','المشرق العربي','الخليج','أفريقيا جنوب الصحراء','Arab World','Africa'];
+
+  grid.innerHTML = books.map(b => {
+    const lc = 'l-' + b.language;
+    const ll = b.language === 'ar' ? 'عربي' : b.language === 'fr' ? 'Français' : 'English';
+    const date = fmtDate(b.publication_date);
+    const pagesStr = b.pages ? b.pages + ' p.' : '';
+    const ratingStr = b.rating ? '⭐ ' + b.rating.toFixed(1) : '';
+
+    const coverHTML = b.cover
+      ? `<img src="${esc(b.cover)}" alt="${esc(b.title)}" loading="lazy" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\"cover-placeholder\\">🔍</div>'">`
+      : `<div class="cover-placeholder">📄</div>`;
+
+    const tagsHTML = b.topics.slice(0, 5).map(t => {
+      const isGeo = geoTopics.some(g => t.includes(g) || g.includes(t));
+      const isHot = hotTopics.some(h => t.includes(h));
+      const cls = isGeo ? 'tag geo' : isHot ? 'tag hot' : 'tag topic';
+      return `<span class="${cls}">${esc(t)}</span>`;
+    }).join('');
+
+    return `<div class="book-card">
+      <div class="cover-wrap">
+        ${coverHTML}
+        <span class="lang-badge ${lc}">${ll}</span>
+        ${pagesStr ? `<span class="pages-badge">📄 ${pagesStr}</span>` : ''}
+        <span class="src-badge">${esc(b.source)}</span>
+      </div>
+      <div class="book-body">
+        <div class="book-title">${esc(b.title)}</div>
+        <div class="book-author">${esc(b.authors.slice(0, 3).join(', ') || 'غير محدد')}</div>
+        <div class="book-pub">${esc(b.publisher || 'غير محدد')}</div>
+        <div class="book-meta">
+          ${date ? `<span>📅 ${date}</span>` : ''}
+          ${ratingStr ? `<span>${ratingStr}</span>` : ''}
+          ${b.isbn ? `<span>📋 ISBN</span>` : ''}
+        </div>
+        <div class="topics">${tagsHTML}</div>
+        ${b.description ? `<div class="book-desc">${esc(b.description)}</div>` : ''}
+        <div class="book-actions">
+          ${b.book_url ? `<a href="${esc(b.book_url)}" target="_blank" rel="noopener" class="blink bp">🔗 رابط الكتاب</a>` : ''}
+          ${b.isbn ? `<a href="https://www.worldcat.org/isbn/${b.isbn}" target="_blank" rel="noopener" class="blink bs">📚 WorldCat</a>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════ STATS ══════════
+function updateStats() {
+  document.getElementById('sTotal').textContent = String(ALL_BOOKS.length);
+  document.getElementById('sAr').textContent = String(ALL_BOOKS.filter(b => b.language === 'ar').length);
+  document.getElementById('sEn').textContent = String(ALL_BOOKS.filter(b => b.language === 'en').length);
+  document.getElementById('sFr').textContent = String(ALL_BOOKS.filter(b => b.language === 'fr').length);
+  document.getElementById('sPub').textContent = String(new Set(ALL_BOOKS.map(b => b.publisher).filter(Boolean)).size);
+  document.getElementById('sSrc').textContent = String(activeSources.size) || '-';
+}
+
+function updateTime() {
+  document.getElementById('lastUp').textContent = 'آخر تحديث: ' + fmtDateTime();
+}
+
+function manualRefresh() {
+  localStorage.removeItem(CACHE_KEY);
+  ALL_BOOKS = [];
+  fetchAllBooks();
+}
+
+// ══════════ INIT ══════════
+(async function init() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (raw) {
+      const cache = JSON.parse(raw);
+      if (cache && cache.books && cache.books.length > 0) {
+        ALL_BOOKS = cache.books;
+        if (cache.sources) cache.sources.forEach(s => activeSources.add(s));
+        updateStats(); filterBooks(); updateTime();
+
+        const elapsed = Date.now() - (cache.timestamp || 0);
+        if (elapsed < DAILY_MS) {
+          setTimeout(() => fetchAllBooks(), DAILY_MS - elapsed);
+          return;
+        }
+        fetchAllBooks();
+        return;
+      }
+    }
+  } catch(e) {}
+  await fetchAllBooks();
+})();
+
+setInterval(() => fetchAllBooks(), DAILY_MS);
+</script>
+</body>
+</html>
