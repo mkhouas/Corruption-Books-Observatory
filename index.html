@@ -1306,6 +1306,20 @@ function esc(s) {
   return d.innerHTML;
 }
 
+// Escape for use inside HTML attribute values (also escapes double quotes)
+function escAttr(s) {
+  return esc(s).replace(/"/g, '&quot;');
+}
+
+// Global image error handler — avoids broken quote nesting inside onerror=""
+window.handleImgError = function(img) {
+  img.style.display = 'none';
+  const ph = document.createElement('div');
+  ph.className = 'cover-placeholder';
+  ph.textContent = '📄';
+  img.parentElement.prepend(ph);
+};
+
 function renderBooks(books) {
   const grid = document.getElementById('grid');
 
@@ -1339,7 +1353,7 @@ function renderBooks(books) {
     const ratingStr = b.rating ? '⭐ ' + b.rating.toFixed(1) : '';
 
     const coverHTML = b.cover
-      ? `<img src="${esc(b.cover)}" alt="${esc(b.title)}" loading="lazy" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\"cover-placeholder\\">🔍</div>'">`
+      ? `<img src="${escAttr(b.cover)}" alt="${escAttr(b.title)}" loading="lazy" onerror="handleImgError(this)">`
       : `<div class="cover-placeholder">📄</div>`;
 
     const tagsHTML = b.topics.slice(0, 5).map(t => {
@@ -1368,8 +1382,8 @@ function renderBooks(books) {
         <div class="topics">${tagsHTML}</div>
         ${b.description ? `<div class="book-desc">${esc(b.description)}</div>` : ''}
         <div class="book-actions">
-          ${b.book_url ? `<a href="${esc(b.book_url)}" target="_blank" rel="noopener" class="blink bp">🔗 رابط الكتاب</a>` : ''}
-          ${b.isbn ? `<a href="https://www.worldcat.org/isbn/${b.isbn}" target="_blank" rel="noopener" class="blink bs">📚 WorldCat</a>` : ''}
+          ${b.book_url ? `<a href="${escAttr(b.book_url)}" target="_blank" rel="noopener" class="blink bp">🔗 رابط الكتاب</a>` : ''}
+          ${b.isbn ? `<a href="https://www.worldcat.org/isbn/${escAttr(b.isbn)}" target="_blank" rel="noopener" class="blink bs">📚 WorldCat</a>` : ''}
         </div>
       </div>
     </div>`;
